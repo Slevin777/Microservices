@@ -45,6 +45,11 @@ UserSession.init(
       },
       type: DataTypes.UUID,
     },
+    expiresAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      // defaultValue: new Date(),
+    },
   },
   {
     modelName: 'userSessions',
