@@ -8,6 +8,18 @@ import passwordCompareSync from '../helpers/passwordCompareSync';
 const USER_SESSION_EXPIRY_HOURS = 1;
 
 const setupRoutes = (app) => {
+  app.get('/sessions/:sessionId', async (req, res, next) => {
+    try {
+      const userSession = await userSession.findByPk(req.params.sessionId);
+
+      if (!userSession) return next(new Error('Invalid Session ID'));
+
+      res.json(userSession);
+    } catch (e) {
+      return next(e);
+    }
+  });
+
   app.post('/sessions', async (req, res, next) => {
     if (!req.body.email || !req.body.password)
       return next(new Error('Invalid email or password'));
