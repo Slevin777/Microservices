@@ -1,5 +1,9 @@
-import styled from 'styled-components';
-import Login from './components/Login';
+import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import AccountDetails from "./components/AccountDetails";
+import { GET_SESSION } from "./gql/queries";
+import SessionStore from "./store/sessionStore";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -23,17 +27,30 @@ const SideBar = styled.div`
   width: 10rem;
 `;
 
-function App() {
+const App = () => {
+  const [initialized, setInitialized] = useState(false);
+
+  const { loading, error, data } = useQuery(GET_SESSION);
+
+  useEffect(() => {
+    if (data?.userSession) {
+      SessionStore.setSession(data.userSession);
+      setInitialized(true);
+    }
+  }, [data]);
+
+  if (loading) return "loading";
+
   return (
     <Wrapper>
       <Container>
         <Content>Content</Content>
         <SideBar>
-          <Login />
+          <AccountDetails />
         </SideBar>
       </Container>
     </Wrapper>
   );
-}
+};
 
 export default App;

@@ -1,11 +1,15 @@
-import UserService from '../adapters/UsersService';
+import UserService from "../adapters/UsersService";
 
 const injectSession = async (req, res, next) => {
-  if (req.cookies.userSesstionId) {
-    const userSesion = await UserService.fetchUserSession({
-      sessionId: req.cookies.userSesstionId,
-    });
-    res.locals.userSession = userSesion;
+  if (req.cookies.userSessionId) {
+    try {
+      const userSesion = await UserService.fetchUserSession({
+        sessionId: req.cookies.userSessionId,
+      });
+      res.locals.userSession = userSesion;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return next();

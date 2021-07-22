@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { useMutation } from '@apollo/client';
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@apollo/client";
 
-import TextInput from '../UI/TextInput';
-import * as mutations from '../../gql/mutations';
+import TextInput from "../../UI/TextInput";
+import * as mutations from "../../../gql/mutations";
 
 const Label = styled.label`
   display: block;
@@ -25,7 +25,7 @@ const LoginButton = styled.button`
 `;
 
 const Login = () => {
-  const [createUserSession, { data }] = useMutation(mutations.LOGIN);
+  const [createUserSession] = useMutation(mutations.LOGIN);
 
   const {
     register,
@@ -34,7 +34,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async ({ email, password }) => {
-    await createUserSession({
+    const { data } = await createUserSession({
       variables: {
         email,
         password,
@@ -49,7 +49,7 @@ const Login = () => {
       <Label>
         <LabelText>Email:</LabelText>
         <TextInput
-          {...register('email', { required: true })}
+          {...register("email", { required: true })}
           type='email'
           disabled={isSubmitting}
         />
@@ -57,7 +57,7 @@ const Login = () => {
       <Label>
         <LabelText>Password:</LabelText>
         <TextInput
-          {...register('password', { required: true })}
+          {...register("password", { required: true })}
           type='password'
           disabled={isSubmitting}
         />

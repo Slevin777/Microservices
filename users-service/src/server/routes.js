@@ -1,18 +1,18 @@
-import { addHours } from 'date-fns';
+import { addHours } from "date-fns";
 
-import { User, UserSession } from '../db/models';
-import generateUUID from '../helpers/generateUUID';
-import hashPassword from '../helpers/hashPassword';
-import passwordCompareSync from '../helpers/passwordCompareSync';
+import { User, UserSession } from "../db/models";
+import generateUUID from "../helpers/generateUUID";
+import hashPassword from "../helpers/hashPassword";
+import passwordCompareSync from "../helpers/passwordCompareSync";
 
 const USER_SESSION_EXPIRY_HOURS = 1;
 
 const setupRoutes = (app) => {
-  app.get('/sessions/:sessionId', async (req, res, next) => {
+  app.get("/sessions/:sessionId", async (req, res, next) => {
     try {
-      const userSession = await userSession.findByPk(req.params.sessionId);
+      const userSession = await UserSession.findByPk(req.params.sessionId);
 
-      if (!userSession) return next(new Error('Invalid Session ID'));
+      if (!userSession) return next(new Error("Invalid Session ID"));
 
       res.json(userSession);
     } catch (e) {
@@ -20,19 +20,19 @@ const setupRoutes = (app) => {
     }
   });
 
-  app.post('/sessions', async (req, res, next) => {
+  app.post("/sessions", async (req, res, next) => {
     if (!req.body.email || !req.body.password)
-      return next(new Error('Invalid email or password'));
+      return next(new Error("Invalid email or password"));
 
     try {
       const user = await User.findOne({
         attributes: {},
         where: { email: req.body.email },
       });
-      if (!user) return next(new Error('Invalid email'));
+      if (!user) return next(new Error("Invalid email"));
 
       if (!passwordCompareSync(req.body.password, user.passwordHash))
-        return next(new Error('Invalid password'));
+        return next(new Error("Invalid password"));
 
       const expiresAt = addHours(new Date(), USER_SESSION_EXPIRY_HOURS);
 
@@ -52,11 +52,11 @@ const setupRoutes = (app) => {
     }
   });
 
-  app.get('/users/:userId', async (req, res, next) => {
+  app.get("/users/:userId", async (req, res, next) => {
     try {
       const user = await User.findByPk(req.params.userId);
 
-      if (!user) return next(new Error('Invalid user ID'));
+      if (!user) return next(new Error("Invalid user ID"));
 
       return res.json(user);
     } catch (error) {
@@ -64,9 +64,9 @@ const setupRoutes = (app) => {
     }
   });
 
-  app.post('/users', async (req, res, next) => {
+  app.post("/users", async (req, res, next) => {
     if (!req.body.email || !req.body.password)
-      return next(new Error('Invalid email or password'));
+      return next(new Error("Invalid email or password"));
 
     try {
       const newUser = await User.create({
