@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 
 import TextInput from "../../UI/TextInput";
 import * as mutations from "../../../gql/mutations";
+import SessionStore from "../../../store/sessionStore";
 
 const Label = styled.label`
   display: block;
@@ -34,14 +35,16 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async ({ email, password }) => {
-    const { data } = await createUserSession({
+    const {
+      data: { createUserSession: createdUserSession },
+    } = await createUserSession({
       variables: {
         email,
         password,
       },
     });
 
-    console.log(data);
+    SessionStore.setSession(createdUserSession);
   };
 
   return (

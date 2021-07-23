@@ -8,7 +8,7 @@ const AccountDetails = observer(() => {
   const [session] = useState(SessionStore);
 
   if (session?.currentSession?.user)
-    return <Account user={session?.currentSession?.user} />;
+    return <Account session={session?.currentSession} />;
 
   return <Login />;
 });
