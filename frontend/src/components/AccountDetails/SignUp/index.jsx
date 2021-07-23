@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
+import * as yup from "yup";
 
 import TextInput from "../../UI/TextInput";
 import * as mutations from "../../../gql/mutations";
-import SessionStore from "../../../store/sessionStore";
 
 const Label = styled.label`
   display: block;
@@ -25,30 +25,38 @@ const LoginButton = styled.button`
   margin-top: 0.5rem;
 `;
 
-const OrSignUp = styled.span`
+const OrLogIn = styled.span`
   font-size: 0.9rem;
 `;
 
-const Login = ({ onSignUp }) => {
-  const [createUserSession] = useMutation(mutations.LOGIN);
+const validationSchema = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
+
+const SignUp = ({ onLogin }) => {
+  const [createUser] = useMutation(mutations.SIGN_UP);
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm();
+    formState: { isSubmitting, isValid },
+    reset,
+  } = useForm({ mode: "onChange", validationSchema });
 
   const onSubmit = async ({ email, password }) => {
-    const {
-      data: { createUserSession: createdUserSession },
-    } = await createUserSession({
+    await createUser({
       variables: {
         email,
         password,
       },
     });
 
-    SessionStore.setSession(createdUserSession);
+    reset();
+    onLogin();
   };
 
   return (
@@ -69,21 +77,31 @@ const Login = ({ onSignUp }) => {
           disabled={isSubmitting}
         />
       </Label>
-      <LoginButton type='submit'>Login</LoginButton>{" "}
-      <OrSignUp>
+      <Label>
+        <LabelText>Confirm Password:</LabelText>
+        <TextInput
+          {...register("confirmPassword", { required: true })}
+          type='password'
+          disabled={isSubmitting}
+        />
+      </Label>
+      <LoginButton type='submit' disabled={isSubmitting || !isValid}>
+        Sign Up
+      </LoginButton>{" "}
+      <OrLogIn>
         or{" "}
         <a
           href='#'
           onClick={(e) => {
             e.preventDefault();
-            onSignUp();
+            onLogin();
           }}
         >
-          Sign up
+          Log in
         </a>
-      </OrSignUp>
+      </OrLogIn>
     </form>
   );
 };
 
-export default Login;
+export default SignUp;
