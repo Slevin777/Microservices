@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite";
-import { useState } from "react";
-import SessionStore from "../../store/sessionStore";
-import Account from "./Account";
-import Login from "./Login";
-import SignUp from "./SignUp";
+import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
+import SessionStore from '../../store/sessionStore';
+import Account from './Account';
+import Login from './Login';
+import SignUp from './SignUp';
 
 const AccountDetails = observer(() => {
   const [session] = useState(SessionStore);

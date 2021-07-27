@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import AccountDetails from "./components/AccountDetails";
 import { GET_SESSION } from "./gql/queries";
 import SessionStore from "./store/sessionStore";
+
+import AccountDetails from "./components/AccountDetails";
+import Listings from "./components/Listings";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -44,7 +46,9 @@ const App = () => {
   return (
     <Wrapper>
       <Container>
-        <Content>Content</Content>
+        <Content>
+          <Listings />
+        </Content>
         <SideBar>
           <AccountDetails />
         </SideBar>

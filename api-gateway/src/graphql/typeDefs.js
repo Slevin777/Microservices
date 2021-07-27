@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   scalar Date
@@ -25,6 +25,8 @@ const typeDefs = gql`
     createUser(email: String!, password: String!): User!
     createUserSession(email: String!, password: String!): UserSession!
     deleteUserSession(sessionId: ID!): Boolean!
+    createListing(title: String!, description: String!): Listing!
+    deleteListing(listingId: ID!): Boolean!
   }
 
   type Query {

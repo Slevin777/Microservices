@@ -11,3 +11,13 @@ export const GET_SESSION = gql`
     }
   }
 `;
+
+export const GET_LISTINGS = gql`
+  {
+    listings {
+      id
+      title
+      description
+    }
+  }
+`;

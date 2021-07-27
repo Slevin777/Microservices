@@ -25,3 +25,13 @@ export const LOGOUT = gql`
     deleteUserSession(sessionId: $sessionId)
   }
 `;
+
+//Listings
+
+export const ADD_LISTING = gql`
+  mutation ($title: String!, $description: String!) {
+    createListing(title: $title, description: $description) {
+      id
+    }
+  }
+`;
