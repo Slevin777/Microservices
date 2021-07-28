@@ -15,7 +15,7 @@ services:
     depends_on:
       - listings-service-db
     environment:
-      - DB_URI=mysql://root:password@listings-service-db/db?charset=UTF8
+      - DB_URI=postgresql://admin:password@listings-service-db/db?charset=UTF8
     ports:
       - 7100:7100
     volumes:
@@ -23,11 +23,12 @@ services:
 
   listings-service-db:
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=db
-    image: mysql:5.7.20
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    image: postgres
     ports:
-      - 0.0.0.0:7200:3306
+      - 0.0.0.0:7200:5432
 
   users-service:
     build: './users-service'
