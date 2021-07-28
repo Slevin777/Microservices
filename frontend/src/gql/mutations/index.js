@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
@@ -33,5 +33,11 @@ export const ADD_LISTING = gql`
     createListing(title: $title, description: $description) {
       id
     }
+  }
+`;
+
+export const DELETE_LISTING = gql`
+  mutation ($listingId: ID!) {
+    deleteListing(listingId: $listingId)
   }
 `;
