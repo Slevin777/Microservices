@@ -1,1 +1,4 @@
 node_modules
+terraform.tfvars
+microservices_demo.key
+microservices_demo.pem
