@@ -6,6 +6,10 @@ output "api-gateway-public-ip" {
   value = aws_eip.api-gateway-eip.public_ip
 }
 
+output "aws-region" {
+  value = var.aws-region
+}
+
 output "listings-service-db-address" {
   value = module.listings-service-db.address
 }
@@ -21,3 +25,4 @@ output "users-service-db-address" {
 output "users-service-private-ip" {
   value = module.users-service.private-ip
 }
+
