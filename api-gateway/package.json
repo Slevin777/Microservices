@@ -4,22 +4,31 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "webpack --progress",
+    "deploy": "node-deploy $(pwd)",
+    "linkall": "yarn link node-deploy",
     "watch": "babel-watch -L src/index.js"
   },
   "devDependencies": {
+    "babel-watch": "^7.4.1",
+    "node-deploy": "../node-deploy"
+  },
+  "dependencies": {
     "@babel/core": "^7.14.6",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
-    "babel-watch": "^7.4.1"
-  },
-  "dependencies": {
     "apollo-server": "^2.25.2",
     "apollo-server-express": "^2.25.2",
+    "babel-loader": "^8.2.2",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "got": "^11.8.2",
     "graphql": "^15.5.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
   }
 }
